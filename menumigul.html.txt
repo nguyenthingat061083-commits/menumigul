@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>MiGul Menu</title>
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0d15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 12px;
+        }
+
+        /* ===== CARD MENU ===== */
+        .menu {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(18, 22, 36, 0.92);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            padding: 20px 16px 24px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 16px;
+        }
+        .header .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header .brand i {
+            font-size: 28px;
+            color: #00e5ff;
+            text-shadow: 0 0 20px #00e5ff80;
+        }
+        .header .brand h1 {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 30%, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .live-badge {
+            background: #ff1744;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 20px #ff174480;
+            animation: pulse-live 1.6s infinite;
+        }
+        .live-badge i { font-size: 7px; }
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.95); }
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 32px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #8892b0;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .tab.active {
+            background: #00e5ff;
+            color: #0b0d15;
+            box-shadow: 0 0 24px #00e5ff;
+        }
+        .tab i { margin-right: 6px; }
+
+        /* ===== PANELS ===== */
+        .panel {
+            display: none;
+            animation: fade 0.25s ease;
+        }
+        .panel.active { display: block; }
+        @keyframes fade {
+            0% { opacity: 0.3; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== GRID MENU (TIKTOK STYLE) ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .grid-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 16px 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .grid-item:active {
+            transform: scale(0.94);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .grid-item i {
+            font-size: 28px;
+            color: #00e5ff;
+            display: block;
+            margin-bottom: 6px;
+            text-shadow: 0 0 16px #00e5ff40;
+        }
+        .grid-item .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ccd6f6;
+            letter-spacing: 0.3px;
+        }
+        .grid-item .badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #ff1744;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 20px;
+        }
+
+        /* ===== TOGGLE / SLIDER ===== */
+        .setting-row {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .setting-row .label {
+            color: #a8b2d1;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .setting-row .label i { color: #00e5ff; width: 18px; font-size: 14px; }
+
+        .toggle {
+            width: 40px;
+            height: 22px;
+            background: #1e2438;
+            border-radius: 40px;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #2a314a;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .toggle.active {
+            background: #00e5ff;
+            border-color: #00e5ff;
+            box-shadow: 0 0 16px #00e5ff;
+        }
+        .toggle .dot {
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toggle.active .dot {
+            left: 20px;
+            background: #0b0d15;
+        }
+
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            margin-left: 6px;
+        }
+        .slider-group input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            background: #1e2438;
+            height: 4px;
+            border-radius: 10px;
+            outline: none;
+        }
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #00e5ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 12px #00e5ff;
+            border: 2px solid #0b0d15;
+        }
+        .slider-val {
+            min-width: 32px;
+            text-align: center;
+            color: #00e5ff;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* ===== BUTTON ACTIVE ===== */
+        .btn-activate {
+            width: 100%;
+            padding: 16px 0;
+            margin-top: 16px;
+            background: #00e5ff;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: #0b0d15;
+            cursor: pointer;
+            box-shadow: 0 0 30px #00e5ff;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-activate:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== VERSION ===== */
+        .version {
+            text-align: center;
+            color: #475569;
+            font-size: 10px;
+            margin-top: 14px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            .grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .grid-item { padding: 12px 4px; }
+            .grid-item i { font-size: 22px; }
+            .grid-item .label { font-size: 10px; }
+            .header .brand h1 { font-size: 18px; }
+            .tab { font-size: 11px; padding: 8px 0; }
+        }
+        @media (min-width: 500px) {
+            .menu { max-width: 480px; }
+            .grid { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="brand">
+            <i class="fas fa-robot"></i>
+            <h1>MiGul</h1>
+        </div>
+        <div class="live-badge"><i class="fas fa-circle"></i> LIVE</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" data-tab="home"><i class="fas fa-th"></i> Home</button>
+        <button class="tab" data-tab="aim"><i class="fas fa-crosshairs"></i> Aim</button>
+        <button class="tab" data-tab="visual"><i class="fas fa-eye"></i> Visual</button>
+        <button class="tab" data-tab="mod"><i class="fas fa-cogs"></i> Mod</button>
+    </div>
+
+    <!-- ===== PANEL HOME ===== -->
+    <div class="panel active" id="panel-home">
+        <div class="grid">
+            <div class="grid-item"><i class="fas fa-bullseye"></i><span class="label">Aimbot</span></div>
+            <div class="grid-item"><i class="fas fa-eye"></i><span class="label">ESP</span></div>
+            <div class="grid-item"><i class="fas fa-fighter-jet"></i><span class="label">Fly</span></div>
+            <div class="grid-item"><i class="fas fa-tachometer-alt"></i><span class="label">Speed</span></div>
+            <div class="grid-item"><i class="fas fa-ghost"></i><span class="label">Ghost</span></div>
+            <div class="grid-item"><i class="fas fa-shield-alt"></i><span class="label">Anti</span></div>
+            <div class="grid-item"><i class="fas fa-map"></i><span class="label">Radar</span></div>
+            <div class="grid-item"><i class="fas fa-bolt"></i><span class="label">No Recoil</span></div>
+            <div class="grid-item"><i class="fas fa-skull-crossbones"></i><span class="label">Kích Hoạt</span></div>
+        </div>
+    </div>
+
+    <!-- ===== PANEL AIM ===== -->
+    <div class="panel" id="panel-aim">
+        <div class="setting-row">
+            <span class="label"><i class="fas fa-bullseye"></i> Aimbot</span>
+            <div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div>
+        </div>
+        <div class="setting-row">
+            <span class="label"><i class="fas fa-expand"></i> FOV</span>
+            <div class="slider-group">
+                <input type="range" min="0" max="200" value="120" oninput="updateVal(this, 'fovVal')" />
+                <span class="slider-val" id="fovVal">120</span>
+            </div>
+        </div>
+        <div class="setting-row">
+            <span class="label"><i class="fas fa-feather-alt"></i> Smooth</span>
+            <div class="slider-group">
+                <input type="range" min="0" max="5" step="0.1" value="2.5" oninput="updateVal(this, 'smoothVal')" />
+                <span class="slider-val" id="smoothVal">2.5</span>
+            </div>
+        </div>
+        <div class="setting-row">
+            <span class="label"><i class="fas fa-user-injured"></i> Hitbox</span>
+            <select>
+                <option>Head</option>
+                <option selected>Neck</option>
+                <option>Chest</option>
+                <option>Body</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ===== PANEL VISUAL ===== -->
+    <div class="panel" id="panel-visual">
+        <div class="setting-row"><span class="label"><i class="fas fa-vector-square"></i> Box ESP</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-font"></i> Name ESP</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-heartbeat"></i> Health Bar</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-ruler"></i> Distance</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-arrows-alt-h"></i> Snapline</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+    </div>
+
+    <!-- ===== PANEL MOD ===== -->
+    <div class="panel" id="panel-mod">
+        <div class="setting-row"><span class="label"><i class="fas fa-fighter-jet"></i> Fly / Teleport</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-tachometer-alt"></i> Speed Hack</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-water"></i> No Water</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-ghost"></i> Ghost Mode</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-bolt"></i> No Recoil</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting-row"><span class="label"><i class="fas fa-sync-alt"></i> Auto Fire</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-activate" onclick="activate()"><i class="fas fa-skull-crossbones"></i> KÍCH HOẠT</button>
+    <div class="version">MiGul v2.0 — ThanhHai Dev</div>
+</div>
+
+<script>
+    // Toggle
+    function toggle(el) {
+        el.classList.toggle('active');
+    }
+
+    // Slider
+    function updateVal(input, spanId) {
+        document.getElementById(spanId).textContent = parseFloat(input.value).toFixed(1);
+    }
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Activate
+    function activate() {
+        const config = {
+            aimbot: document.querySelector('#panel-aim .toggle.active') ? 'ON' : 'OFF',
+            fov: document.getElementById('fovVal').textContent,
+            smooth: document.getElementById('smoothVal').textContent,
+            hitbox: document.querySelector('#panel-aim select')?.value || 'Neck',
+            esp: {
+                box: document.querySelector('#panel-visual .toggle.active') ? 'ON' : 'OFF',
+                name: document.querySelectorAll('#panel-visual .toggle')[1]?.classList.contains('active') ? 'ON' : 'OFF',
+                health: document.querySelectorAll('#panel-visual .toggle')[2]?.classList.contains('active') ? 'ON' : 'OFF',
+                distance: document.querySelectorAll('#panel-visual .toggle')[3]?.classList.contains('active') ? 'ON' : 'OFF',
+                snapline: document.querySelectorAll('#panel-visual .toggle')[4]?.classList.contains('active') ? 'ON' : 'OFF'
+            },
+            mod: {
+                fly: document.querySelector('#panel-mod .toggle')?.classList.contains('active') ? 'ON' : 'OFF',
+                speed: document.querySelectorAll('#panel-mod .toggle')[1]?.classList.contains('active') ? 'ON' : 'OFF',
+                nowater: document.querySelectorAll('#panel-mod .toggle')[2]?.classList.contains('active') ? 'ON' : 'OFF',
+                ghost: document.querySelectorAll('#panel-mod .toggle')[3]?.classList.contains('active') ? 'ON' : 'OFF',
+                norecoil: document.querySelectorAll('#panel-mod .toggle')[4]?.classList.contains('active') ? 'ON' : 'OFF',
+                autofire: document.querySelectorAll('#panel-mod .toggle')[5]?.classList.contains('active') ? 'ON' : 'OFF'
+            }
+        };
+        alert('✅ Đã kích hoạt cấu hình MiGul!\n' + JSON.stringify(config, null, 2));
+        console.log('📦 MiGul Config:', config);
+    }
+</script>
+
+</body>
+</html>
